@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+	<title>Cadastro de Produto</title>
+</h:head>
+<h:body>
+	<h1 style="">Cadastro de Produto</h1>
+
+	<h:form>
+		<h:messages 
+			errorStyle="color:red"
+			infoStyle="color:green"
+			warnStyle="color:orange"
+			globalOnly="true" 
+			showDetail="false"/>
+		<h:panelGrid columns="2">
+			
+			<h:outputLabel value="Marca:" />
+			<h:panelGroup>
+				<h:inputText id="itMarca" value="#{controllerProduto.entity.marca}"
+						required="true">
+				</h:inputText>
+			</h:panelGroup>		
+			<h:outputLabel value="Numero de Serie:" />
+			<h:panelGroup>
+				<h:inputText id="itnSerie" value="#{controllerProduto.entity.numSerie}"
+						required="true">
+				</h:inputText>
+			</h:panelGroup>
+			<h:outputLabel value="Quantidade:" />
+			<h:panelGroup>
+				<h:inputText id="itQuantidade" value="#{controllerProduto.entity.quantidade}"
+						required="true">
+				</h:inputText>
+			</h:panelGroup>		
+			<h:outputLabel value="Data de Fabricação:" />
+			<h:panelGroup>
+				<h:inputText id="itData" value="#{controllerProduto.entity.datadeFabri}" 
+					converterMessage="Erro ao converter a data">
+					<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+				</h:inputText>
+				<h:message for="itData" style="color:red"/>
+			</h:panelGroup>
+			<h:outputLabel value="Cor:" />
+			<h:panelGroup>
+				<h:inputText id="itCor" value="#{controllerProduto.entity.cor}"
+						required="true">
+				</h:inputText>
+			</h:panelGroup>
+			<h:outputLabel value="Tamanho:" />
+			<h:panelGroup>
+				<h:inputText id="itTamanho" value="#{controllerProduto.entity.tamanho}"
+						required="true">
+				</h:inputText>
+			</h:panelGroup>		
+			<h:outputLabel value="Estilo:" />
+			<h:selectOneMenu value="#{controllerProduto.entity.estilo}">
+				<f:selectItem itemLabel="Selecione ..." />
+				<f:selectItems value="#{controllerProduto.listaEstilo}" 
+							   var="obj"
+							   itemLabel="#{obj.label}"/>
+			</h:selectOneMenu>			
+
+		</h:panelGrid>
+
+		<h:commandButton value="Incluir"
+			actionListener="#{controllerProduto.incluir()}" 
+			disabled="#{controllerProduto.entity.id != null}">
+			<f:ajax execute="@form" render="@form formDataTable"/>
+		</h:commandButton>	
+			
+		<h:commandButton value="Alterar"
+			actionListener="#{controllerProduto.alterar()}" 
+			disabled="#{controllerProduto.entity.id == null}">
+			<f:ajax execute="@form" render="@form formDataTable"/>
+		</h:commandButton>	
+		
+		<h:commandButton value="Excluir"
+			actionListener="#{controllerProduto.excluir()}" 
+			disabled="#{controllerProduto.entity.id == null}">
+			<f:ajax execute="@this" render="@form formDataTable"/>
+		</h:commandButton>
+	
+		<h:commandButton value="Limpar"
+			actionListener="#{controllerProduto.limpar}" >
+			<f:ajax execute="@this" render="@form"/>
+		</h:commandButton>
+	</h:form>	
+	<h:form id="formDataTable">		
+		<h:dataTable style="" value="#{controllerProduto.listaEntity}" var="obj">
+			<h:column>
+				<f:facet name="header">Id</f:facet>		
+				<h:outputLabel value="#{obj.id}"/>	
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Marca</f:facet>	
+				<h:commandLink value="#{obj.marca}" 
+						actionListener="#{controllerProduto.editar(obj)}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Quantidade</f:facet>		
+				<h:outputLabel value="#{obj.quantidade}"/>	
+			</h:column>
+			<h:column>
+				<f:facet name="header">Numero de Serie</f:facet>		
+				<h:outputLabel value="#{obj.numSerie}"/>	
+			</h:column>
+			<h:column>
+				<f:facet name="header">Data de Fabricação</f:facet>		
+				<h:outputLabel value="#{obj.datadeFabri}">
+					<f:convertDateTime type="localDate" pattern="dd-MM-yyyy" />
+				</h:outputLabel>	
+			</h:column>	
+			
+			<h:column>
+				<f:facet name="header">Cor</f:facet>		
+				<h:outputLabel value="#{obj.estilo.label}"/>	
+			</h:column>	
+			
+			<h:column>
+				<f:facet name="header">Ação</f:facet>		
+				<h:commandLink value="Apagar" actionListener="#{usuarioController.excluir(obj)}"/>	
+			</h:column>								
+		
+		</h:dataTable>
+	</h:form>	
+			
+</h:body>
+</html>
