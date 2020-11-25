@@ -269,11 +269,13 @@ public class DAOUsuario implements DAO<Usuario>{
 		sql.append(" u.perfil ");
 		sql.append(" FROM ");
 		sql.append(" usuario u ");
-		sql.append("ORDER BY u.nome");
+		sql.append("WHERE u.id = ?");
 		PreparedStatement stat = null;
 		
 		try {
 			stat = conn.prepareStatement(sql.toString());
+			stat.setInt(1, obj.getId());
+
 			ResultSet rs = stat.executeQuery();
 			
 			while(rs.next()) {
@@ -288,15 +290,15 @@ public class DAOUsuario implements DAO<Usuario>{
 
 			}
 		}catch (SQLException e) {
-			Util.addErrorMessage("Não foi possivel buscar os dados do usuario.");
+			Util.addErrorMessage("Não foi possivel buscar os dados do usuario em ObterUm.");
 			e.printStackTrace();
-			exception = new Exception("Erro ao executar um sql em DAOusuario.");
+			exception = new Exception("Erro ao executar um sql em DAOusuario em ObterUm.");
 		} finally {
 			try {
 				if (!stat.isClosed())
 					stat.close();
 			} catch (SQLException e) {
-				System.out.println("Erro ao fechar o Statement");
+				System.out.println("Erro ao fechar o Statement em ObterUm");
 				e.printStackTrace();
 			}
 
@@ -327,13 +329,12 @@ public class DAOUsuario implements DAO<Usuario>{
 		sql.append(" u.idade, ");
 		sql.append(" u.senha, ");
 		sql.append(" u.sexo, ");
-		sql.append(" u.perfil");
+		sql.append(" u.perfil ");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
-		sql.append("  u.email = ? ");
-		sql.append("  AND u.senha = ? ");
-
+		sql.append(" u.email = ? ");
+		sql.append(" AND u.senha = ? ");
 		PreparedStatement stat = null;
 		try {
 
@@ -356,9 +357,9 @@ public class DAOUsuario implements DAO<Usuario>{
 			}
 
 		} catch (SQLException e) {
-			Util.addErrorMessage("Não foi possivel buscar os dados do usuario.");
+			Util.addErrorMessage("Não foi possivel buscar os dados do usuario em ObterUsuario.");
 			e.printStackTrace();
-			exception = new Exception("Erro ao executar um sql em UsuarioDAO.");
+			exception = new Exception("Erro ao executar um sql em UsuarioDAO em ObterUsuario.");
 		} finally {
 			try {
 				if (!stat.isClosed())

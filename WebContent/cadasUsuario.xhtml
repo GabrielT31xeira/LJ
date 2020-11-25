@@ -47,7 +47,14 @@
 				<f:selectItems value="#{controllerUsuario.listaSexo}" 
 							   var="obj"
 							   itemLabel="#{obj.label}"/>
-			</h:selectOneMenu>			
+			</h:selectOneMenu>
+			<h:outputLabel value="Perfil:" />
+			<h:selectOneMenu value="#{controllerUsuario.entity.perfil}">
+				<f:selectItem itemLabel="Selecione ..." />
+				<f:selectItems value="#{controllerUsuario.listaPerfil}" 
+							   var="obj"
+							   itemLabel="#{obj.label}"/>
+			</h:selectOneMenu>				
 
 		</h:panelGrid>
 
@@ -99,14 +106,16 @@
 				<h:outputLabel value="#{obj.senha}">
 				</h:outputLabel>	
 			</h:column>	
-			
 			<h:column>
 				<f:facet name="header">Sexo</f:facet>		
 				<h:outputLabel value="#{obj.sexo.label}"/>	
 			</h:column>	
-			
 			<h:column>
-				<f:facet name="header">A��o</f:facet>		
+				<f:facet name="header">Perfil</f:facet>		
+				<h:outputLabel value="#{obj.perfil.label}"/>	
+			</h:column>	
+			<h:column>
+				<f:facet name="header">Apagar</f:facet>		
 				<h:commandLink value="Apagar" actionListener="#{usuarioController.excluir(obj)}"/>	
 			</h:column>								
 		

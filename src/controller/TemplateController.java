@@ -11,11 +11,12 @@ import model.Usuario;
 
 @Named
 @ViewScoped
-public class controllerTemplate  implements Serializable{
+public class TemplateController implements Serializable{
 
+	private static final long serialVersionUID = -125520822566217671L;
 	
 //	private Usuario usuarioLogado = null;
-	
+
 	public void encerrarSessao() {
 		Session.getInstance().invalidateSession();
 		Util.redirect("login.xhtml");
