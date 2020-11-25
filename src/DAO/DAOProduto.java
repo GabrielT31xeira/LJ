@@ -285,8 +285,8 @@ public class DAOProduto implements DAO<Produto>{
 		sql.append(" u.num_serie, ");
 		sql.append(" u.quantidade, ");
 		sql.append(" u.data_fabri, ");
-		sql.append(" u.cor ");
-		sql.append(" u.tamanho");
+		sql.append(" u.cor, ");
+		sql.append(" u.tamanho,");
 		sql.append(" u.estilo ");
 		sql.append(" FROM ");
 		sql.append(" produto u ");
@@ -338,6 +338,153 @@ public class DAOProduto implements DAO<Produto>{
 		}
 		
 		return produto;
+	}	
+	public List<Produto> obterListaProduto(Integer tipo, String filtro) throws Exception{
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+		List<Produto> listaProduto = new ArrayList<Produto>();
+	
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append(" u.id, ");
+		sql.append(" u.marca, ");
+		sql.append(" u.num_serie, ");
+		sql.append(" u.quantidade, ");
+		sql.append(" u.data_fabri, ");
+		sql.append(" u.cor, ");
+		sql.append(" u.tamanho,");
+		sql.append(" u.estilo ");
+		sql.append(" FROM ");
+		sql.append(" produto u ");
+		sql.append(" WHERE ");
+		sql.append(" upper(u.marca) LIKE upper ( ? )");
+		sql.append(" and upper(u.cor) LIKE upper ( ? )");
+		sql.append(" ORDER BY u.marca");
+		
+		PreparedStatement stat = null;
+		try {
+			stat = conn.prepareStatement(sql.toString());
+
+			stat.setString(1, tipo == 1 ? "%"+ filtro + "%" : "%");
+			stat.setString(2, tipo == 2 ? "%"+ filtro + "%" : "%");
+			
+			ResultSet rs = stat.executeQuery();
+
+			while(rs.next()) {
+				Produto produto = new Produto();
+				produto.setId(rs.getInt("id"));
+				produto.setMarca(rs.getString("marca"));
+				produto.setNumSerie(rs.getInt("num_serie"));
+				produto.setQuantidade(rs.getInt("quantidade"));
+				Date data = rs.getDate("data_fabri");
+				produto.setDatadeFabri(data == null ? null:data.toLocalDate());
+				produto.setCor(rs.getString("cor"));
+				produto.setTamanho(rs.getInt("tamanho"));
+				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));	
+			}
+			
+			
+		}catch (SQLException e) {
+			Util.addErrorMessage("Não foi possivel buscar os dados do produto.");
+			e.printStackTrace();
+			exception = new Exception("Erro ao executar um sql em produtoDAO.");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+
+		if (exception != null) {
+			throw exception;
+		}
+		
+		return listaProduto;
+	}
+	public List<Produto> obterListaEstoque(Integer tipo, String filtro) throws Exception{
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+		List<Produto> listaProduto = new ArrayList<Produto>();
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append(" u.id, ");
+		sql.append(" u.marca, ");
+		sql.append(" u.num_serie, ");
+		sql.append(" u.quantidade, ");
+		sql.append(" u.data_fabri, ");
+		sql.append(" u.cor, ");
+		sql.append(" u.tamanho,");
+		sql.append(" u.estilo ");
+		sql.append(" FROM ");
+		sql.append(" produto u ");
+		sql.append(" WHERE ");
+		sql.append(" upper(u.marca) LIKE upper ( ? )");
+		sql.append(" and upper(u.cor) LIKE upper ( ? )");
+		sql.append(" and u.estoque > 0");
+		
+		PreparedStatement stat = null;
+
+		try {
+			stat = conn.prepareStatement(sql.toString());
+
+			stat.setString(1, tipo == 1 ? "%"+ filtro + "%" : "%");
+			stat.setString(2, tipo == 2 ? "%"+ filtro + "%" : "%");
+			
+			ResultSet rs = stat.executeQuery();
+
+			while(rs.next()) {
+				Produto produto = new Produto();
+				produto.setId(rs.getInt("id"));
+				produto.setMarca(rs.getString("marca"));
+				produto.setNumSerie(rs.getInt("num_serie"));
+				produto.setQuantidade(rs.getInt("quantidade"));
+				Date data = rs.getDate("data_fabri");
+				produto.setDatadeFabri(data == null ? null:data.toLocalDate());
+				produto.setCor(rs.getString("cor"));
+				produto.setTamanho(rs.getInt("tamanho"));
+				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));	
+			}
+			
+			
+		}catch (SQLException e) {
+			Util.addErrorMessage("Não foi possivel buscar os dados do produto.");
+			e.printStackTrace();
+			exception = new Exception("Erro ao executar um sql em produtoDAO.");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+
+		if (exception != null) {
+			throw exception;
+		}
+		
+		return listaProduto;
 	}
 
 }

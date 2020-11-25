@@ -8,6 +8,7 @@ public class Usuario {
 	private Integer idade;
 	private String senha;
 	private Sexo sexo;
+	private Perfil perfil;
 	public Integer getId() {
 		return id;
 	}
@@ -43,6 +44,12 @@ public class Usuario {
 	}
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
+	}
+	public Perfil getPerfil() {
+		return perfil;
+	}
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 	@Override
 	public int hashCode() {

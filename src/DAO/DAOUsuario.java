@@ -10,6 +10,7 @@ import java.util.List;
 
 import application.Util;
 import model.Usuario;
+import model.Perfil;
 import model.Sexo;
 
 public class DAOUsuario implements DAO<Usuario>{
@@ -22,9 +23,9 @@ public class DAOUsuario implements DAO<Usuario>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("usuario ");
-		sql.append("  (nome, email, idade, senha, sexo) ");
+		sql.append("  (nome, email, idade, senha, sexo, perfil) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ? ) ");
+		sql.append("  ( ?, ?, ?, ?, ?, ? ) ");
 		PreparedStatement stat = null;
 		
 		try {
@@ -34,7 +35,8 @@ public class DAOUsuario implements DAO<Usuario>{
 			stat.setInt(3, obj.getIdade());
 			stat.setString(4, obj.getSenha());
 			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
-			
+			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
+
 			stat.execute();
 			
 			conn.commit();
@@ -85,6 +87,7 @@ public class DAOUsuario implements DAO<Usuario>{
 		sql.append(" idade = ?, ");
 		sql.append(" senha = ?, ");
 		sql.append(" sexo = ?, ");
+		sql.append(" perfil = ? ");
 		sql.append("WHERE ");
 		sql.append(" id = ?");
 		
@@ -96,7 +99,8 @@ public class DAOUsuario implements DAO<Usuario>{
 			stat.setInt(3, obj.getIdade());
 			stat.setString(4, obj.getSenha());
 			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
-			
+			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
+
 			stat.execute();
 			
 			conn.commit();
@@ -198,7 +202,8 @@ public class DAOUsuario implements DAO<Usuario>{
 		sql.append(" u.email, ");
 		sql.append(" u.idade, ");
 		sql.append(" u.senha, ");
-		sql.append(" u.sexo ");
+		sql.append(" u.sexo, ");
+		sql.append(" u.perfil ");
 		sql.append(" FROM ");
 		sql.append(" usuario u ");
 		sql.append("ORDER BY u.nome");
@@ -216,13 +221,13 @@ public class DAOUsuario implements DAO<Usuario>{
 				usuario.setIdade(rs.getInt("idade"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
-				
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
 				listaUsuario.add(usuario);
 			}
 		}catch (SQLException e) {
-			Util.addErrorMessage("Não foi possivel buscar os dados do produto.");
+			Util.addErrorMessage("Não foi possivel buscar os dados do usuario.");
 			e.printStackTrace();
-			exception = new Exception("Erro ao executar um sql em DAOproduto.");
+			exception = new Exception("Erro ao executar um sql em DAOusuario.");
 		} finally {
 			try {
 				if (!stat.isClosed())
@@ -260,7 +265,8 @@ public class DAOUsuario implements DAO<Usuario>{
 		sql.append(" u.email, ");
 		sql.append(" u.idade, ");
 		sql.append(" u.senha, ");
-		sql.append(" u.sexo ");
+		sql.append(" u.sexo, ");
+		sql.append(" u.perfil ");
 		sql.append(" FROM ");
 		sql.append(" usuario u ");
 		sql.append("ORDER BY u.nome");
@@ -278,12 +284,13 @@ public class DAOUsuario implements DAO<Usuario>{
 				usuario.setIdade(rs.getInt("idade"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
-				
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
+
 			}
 		}catch (SQLException e) {
-			Util.addErrorMessage("Não foi possivel buscar os dados do produto.");
+			Util.addErrorMessage("Não foi possivel buscar os dados do usuario.");
 			e.printStackTrace();
-			exception = new Exception("Erro ao executar um sql em DAOproduto.");
+			exception = new Exception("Erro ao executar um sql em DAOusuario.");
 		} finally {
 			try {
 				if (!stat.isClosed())
@@ -319,7 +326,8 @@ public class DAOUsuario implements DAO<Usuario>{
 		sql.append(" u.email, ");
 		sql.append(" u.idade, ");
 		sql.append(" u.senha, ");
-		sql.append(" u.sexo ");
+		sql.append(" u.sexo, ");
+		sql.append(" u.perfil");
 		sql.append("FROM  ");
 		sql.append("  usuario u ");
 		sql.append("WHERE ");
@@ -343,6 +351,8 @@ public class DAOUsuario implements DAO<Usuario>{
 				usuario.setIdade(rs.getInt("idade"));
 				usuario.setSenha(rs.getString("senha"));
 				usuario.setSexo(Sexo.valueOf(rs.getInt("sexo")));
+				usuario.setPerfil(Perfil.valueOf(rs.getInt("perfil")));
+
 			}
 
 		} catch (SQLException e) {

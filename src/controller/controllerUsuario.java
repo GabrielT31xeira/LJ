@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 
 import DAO.DAOUsuario;
+import model.Perfil;
 import model.Sexo;
 import model.Usuario;
 
@@ -26,5 +27,8 @@ public class controllerUsuario extends Controller<Usuario> implements Serializab
 	}
 	public Sexo[] getListaSexo() {
 		return Sexo.values();
+	}
+	public Perfil[] getListaPerfil() {
+		return Perfil.values();
 	}
 }
