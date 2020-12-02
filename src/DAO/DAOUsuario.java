@@ -15,6 +15,64 @@ import model.Sexo;
 
 public class DAOUsuario implements DAO<Usuario>{
 
+	private void cadasCliente(Usuario obj)throws Exception{
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("INSERT INTO ");
+		sql.append("usuario ");
+		sql.append("  (nome, email, idade, senha, sexo, perfil) ");
+		sql.append("VALUES ");
+		sql.append("  ( ?, ?, ?, ?, ?, 2 ) ");
+		PreparedStatement stat = null;
+		
+		try {
+			stat = conn.prepareStatement(sql.toString());
+			stat.setString(1, obj.getNome());
+			stat.setString(2, obj.getEmail());
+			stat.setInt(3, obj.getIdade());
+			stat.setString(4, Util.hash(obj.getEmail()+obj.getSenha()));
+			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
+			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
+
+			stat.execute();
+			
+			conn.commit();
+			
+		}catch (SQLException e) {
+			
+			System.out.println("Erro ao realizar um comando sql de insert.");
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Erro ao realizar o rollback.");
+				e1.printStackTrace();
+			}
+			exception = new Exception("Erro ao inserir");
+			
+		}finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+		if (exception != null) {
+			throw exception;
+		}
+	}
 	@Override
 	public void inserir(Usuario obj) throws Exception {
 		Exception exception = null;
@@ -33,7 +91,7 @@ public class DAOUsuario implements DAO<Usuario>{
 			stat.setString(1, obj.getNome());
 			stat.setString(2, obj.getEmail());
 			stat.setInt(3, obj.getIdade());
-			stat.setString(4, obj.getSenha());
+			stat.setString(4, Util.hash(obj.getEmail()+obj.getSenha()));
 			stat.setObject(5, (obj.getSexo() == null ? null : obj.getSexo().getId()));
 			stat.setObject(6, (obj.getPerfil() == null ? null : obj.getPerfil().getId()));
 

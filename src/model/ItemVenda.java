@@ -18,10 +18,10 @@ public class ItemVenda {
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-	public Produto getMidia() {
+	public Produto getProduto() {
 		return produto;
 	}
-	public void setMidia(Produto produto) {
+	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
 }

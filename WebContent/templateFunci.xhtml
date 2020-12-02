@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
-	<title>Template</title>
+	<title>Funcionario</title>
 	<meta charset="utf-8" name="viewport"
 		content="width=device-width, initial-scale=1"
 		http-equiv="X-UA-Conpatible" />
@@ -13,33 +15,40 @@
 
 </h:head>
 <h:body>
-
+<h:form>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Dom's Sapatos</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse"
    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  
+  <h:form class="collapse navbar-collapse" pt:id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Cadastrar Administrador</a>
+        <a class="nav-link" href="/LJ/faces/cadasUsuario.xhtml">Cadastrar Usuario</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Cadastrar Usuario</a>
+        <a class="nav-link" href="/LJ/faces/cadasProd.xhtml">Cadastrar Produto</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Cadastrar Produto</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Controle de Vendas</a>
+        <a class="nav-link" href="/LJ/faces/vendas.xhtml">Vendas</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sair</button>
-    </form>
-  </div>
+    <div class="form-inline my-2 my-lg-0">
+      <h:commandButton class="btn btn-outline-success my-2 my-sm-0" value="Sair" actionListener="#{templateController.encerrarSessao}"></h:commandButton>
+    </div>
+  </h:form>
 </nav>
+</h:form>
+		<div class="box content">
+			<br/>
+			<ui:insert name="conteudo">
+				<div align="center">
+					<h1>Escolha uma das opçoes Acima</h1>
+				</div>
+			</ui:insert>
+		</div>
+
 </h:body>
 </html>

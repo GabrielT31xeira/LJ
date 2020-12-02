@@ -32,21 +32,21 @@
 		    <artifactId>hibernate-validator</artifactId>
 		    <version>6.1.5.Final</version>
 		</dependency>
-					
-  <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 		    <groupId>org.postgresql</groupId>
 		    <artifactId>postgresql</artifactId>
 		    <version>42.2.18</version>
 		</dependency>
 		
-		
 		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.13</version>
-		</dependency>
+		</dependency>	
+		
 		<!-- Bibliotecas para utilizar com o flashscope -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -67,7 +67,8 @@
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
-		</dependency>	
+		</dependency>					
+  
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>

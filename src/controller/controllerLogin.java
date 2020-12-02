@@ -15,7 +15,7 @@ public class controllerLogin {
 
 	private Usuario usuario;
 
-	public void logar() {
+	public void Logar() {
 		
 		DAOUsuario dao = new DAOUsuario();
 		try {
@@ -27,7 +27,11 @@ public class controllerLogin {
 			else {
 				// Usuario existe com as credenciais
 				Session.getInstance().setAttribute("usuarioLogado", usuarioLogado);
-				Util.redirect("template.xhtml");
+				if(usuarioLogado.getPerfil().getId()==1) {
+					Util.redirect("templateFunci.xhtml");					
+				}else {
+					Util.redirect("templateUsu.xhtml");					
+				}
 			}
 				
 		} catch (Exception e) {

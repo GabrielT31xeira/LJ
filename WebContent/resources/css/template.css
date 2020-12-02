@@ -59,7 +59,7 @@ body {
 
 .header {
 	color: #FFF;
-	background-color: black	;
+	background-color: rgb(255, 255, 255)	;
 	vertical-align: middle;
 	text-align: center;
 	height: 100px;
@@ -79,7 +79,7 @@ body {
 	/*position: fixed;*/
 	border-style: solid;
  	border-width: 1px;
-	border-color: black;
+	border-color: LightGray;
 	border-left: 0px;
 	border-right:  0px;
 	border-bottom: 0px;

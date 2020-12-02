@@ -82,4 +82,10 @@ public class Usuario {
 		}
 		return null;
 	}
+	@Override
+	public String toString() {
+		return "Usuario = {\n\tid: " + id + ",\n\tnome: " + nome + ",\n\temail: " + email + ",\n\tidade: " + idade
+				+ ",\n\tsenha: " + senha + ",\n\tsexo: " + sexo + ",\n\tperfil: " + perfil + "\n}";
+	}
+	
 }

@@ -13,6 +13,12 @@ public class Produto implements Cloneable{
 	private int tamanho;
 	private Estilo estilo;
 	
+	public Produto() {
+		
+	}
+	public Produto(Integer id) {
+		this.id=id;
+	}
 	public Integer getId() {
 		return id;
 	}

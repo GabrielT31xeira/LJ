@@ -9,12 +9,20 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import application.Util;
+import application.Session;
+import DAO.DAOVenda;
 import DAO.DAOProduto;
 import model.Produto;
+import model.Usuario;
+import model.Venda;
 
 @Named
 @ViewScoped
-public class controllerVenda implements Serializable{
+public class controllerVenda extends Controller<Venda> implements Serializable{
+	public controllerVenda(DAO.DAO<Venda> dao) {
+		super(dao);
+		
+	}
 	private static final long serialVersionUID = -5512578110148647018L;
 	
 	private Integer Tipofiltro;
@@ -52,5 +60,28 @@ public class controllerVenda implements Serializable{
 	}
 	public void setListaProduto(List<Produto> listaProduto) {
 		this.listaProduto = listaProduto;
+	}
+	@Override
+	public Venda getEntity() {
+		if (entity == null)
+			entity = new Venda();
+		return entity;
+	}
+	private List<Venda> listaVenda;
+
+	public List<Venda> getListaVenda() {
+		if (listaVenda == null) {
+			DAOVenda dao = new DAOVenda();
+			Object obj = Session.getInstance().getAttribute("usuarioLogado");
+			
+			if (obj != null)
+				try {
+					listaVenda = dao.obterTodosItensVenda((Usuario) obj);
+				} catch (Exception e) {
+					Util.addErrorMessage("Não foi possível obter o histórico de vendas.");
+					listaVenda = new ArrayList<Venda>();
+				}
+		}
+		return listaVenda;
 	}
 }
