@@ -46,7 +46,7 @@ public class controllerProdutoConsulta implements Serializable {
 			return;
 		}
 		Flash flash =  FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		flash.put("midiaFlash", editarProduto);
+		flash.put("prodFlash", editarProduto);
 		novoProduto();
 	}
 	public Integer getTipoFiltro() {

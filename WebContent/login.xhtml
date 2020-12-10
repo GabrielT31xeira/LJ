@@ -3,41 +3,47 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:jsf="http://xmlns.jcp.org/jsf"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 	<title>Login</title>
 	<meta charset="utf-8" />
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	
+
 </h:head>
 <h:body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Dom's Sapatos</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse"
-   data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-</nav>
- 
-  <h:form class="px-4 py-3">
-  <div class="login-box container-md">
-    	<div class="form-group">
-      		<label for="exampleDropdownFormEmail1">Email</label>
-      		<h:inputText pt:type="email" class="form-control" pt:id="exampleDropdownFormEmail1" pt:placeholder="email@example.com"
-       		value="#{controllerLogin.usuario.email}"></h:inputText>
-    	</div>
-    	<div class="form-group">
-      		<label for="exampleDropdownFormPassword1">Senha</label>
-      		<h:inputText pt:type="password" class="form-control" pt:id="exampleDropdownFormPassword1" pt:placeholder="Senha" 
-      		value="#{controllerLogin.usuario.senha}"></h:inputText>
-    	</div>
-    		<button type="submit" class="btn btn-outline-success my-2 my-sm-0" 
-    		value="#{controllerLogin.Logar()}">Entrar</button>
-    		<button type="submit" class="btn btn-outline-success my-2 my-sm-0" 
-    		value="#{controllerLogin.Logar()}">Cadastrar-se</button>
-    </div>
-  </h:form>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand">Dom's Sapatos</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</nav>
 
+	<div class="container-fluid d-flex justify-content-center">
+		<h:form pt:class="px-4 py-3 form-signin" pt:style="width : 400px">
+			<div class="login-box container-md">
+				<div class="form-group">
+					<label for="exampleDropdownFormEmail1">Email</label>
+					<h:inputText pt:type="email" class="form-control"
+						pt:id="exampleDropdownFormEmail1"
+						pt:placeholder="email@example.com"
+						value="#{controllerLogin.usuario.email}"></h:inputText>
+				</div>
+				<div class="form-group">
+					<label for="exampleDropdownFormPassword1">Senha</label>
+					<h:inputText pt:type="password" class="form-control"
+						pt:id="exampleDropdownFormPassword1" pt:placeholder="Senha"
+						value="#{controllerLogin.usuario.senha}"></h:inputText>
+				</div>
+				<button type="submit" class="btn btn-outline-success my-2 my-sm-0"
+					value="#{controllerLogin.Logar()}">Entrar</button>
+				<a type="submit" class="btn btn-outline-success my-2 my-sm-0"
+					href="cadasCliente.xhtml">Cadastrar-se</a>
+			</div>
+		</h:form>
+	</div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -2,6 +2,8 @@ package controller;
 
 import java.io.Serializable;
 
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -16,6 +18,9 @@ public class controllerProduto extends Controller<Produto> implements Serializab
 
 	public controllerProduto() {
 		super(new DAOProduto());
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		flash.keep("prodFlash");
+		setEntity((Produto)flash.get("prodFlash"));
 	}
 	@Override
 	public Produto getEntity() {

@@ -8,17 +8,17 @@ import DAO.DAO;
 
 public abstract class Controller<T> {
 	protected T entity;
-	private DAO<T> DAO = null;
+	protected DAO<T> dao = null;
 	private List<T> listaEntity;
 	
 	public Controller(DAO<T> dao) {
 		super();
-		this.DAO = dao;
+		this.dao = dao;
 	}
 
 	public void incluir() {
 		try {
-			DAO.inserir(getEntity());
+			dao.inserir(getEntity());
 			Util.addInfoMessage("Inclusão realizada com sucesso.");
 			limpar();
 		} catch (Exception e) {
@@ -29,7 +29,7 @@ public abstract class Controller<T> {
 	
 	public void alterar() {
 		try {
-			DAO.alterar(getEntity());
+			dao.alterar(getEntity());
 			Util.addInfoMessage("Alteração realizada com sucesso.");
 			limpar();
 		} catch (Exception e) {
@@ -44,7 +44,7 @@ public abstract class Controller<T> {
 
 	public void excluir(T entity) {
 		try {
-			DAO.excluir(entity);
+			dao.excluir(entity);
 			Util.addInfoMessage("Exclusão realizada com sucesso.");
 			limpar();
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public abstract class Controller<T> {
 	
 	public void editar(T entity) {
 		try {
-			setEntity(DAO.obterUm(entity));
+			setEntity(dao.obterUm(entity));
 		} catch (Exception e) {
 			Util.addErrorMessage("Problema ao editar.");
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public abstract class Controller<T> {
 	public List<T> getListaEntity() {
 		if (listaEntity == null) {
 			try {
-				listaEntity = DAO.obterTodos();
+				listaEntity = dao.obterTodos();
 			} catch (Exception e) {
 				e.printStackTrace();
 				listaEntity = new ArrayList<T>();

@@ -12,6 +12,7 @@ public class Produto implements Cloneable{
 	private String cor;
 	private int tamanho;
 	private Estilo estilo;
+	private Double preco;
 	
 	public Produto() {
 		
@@ -66,6 +67,12 @@ public class Produto implements Cloneable{
 	}
 	public void setEstilo(Estilo estilo) {
 		this.estilo = estilo;
+	}
+	public Double getPreco() {
+		return preco;
+	}
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 	@Override
 	public int hashCode() {

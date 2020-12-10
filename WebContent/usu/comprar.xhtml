@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="templateUsu.xhtml">
+	<ui:define name="conteudo">
+
+		<!-- Container -->
+		<div class="container-fluid">
+			<div class="row justify-content-md-center">
+				<div class="container-fluid d-flex justify-content-center">
+					<h:form id="formDataTable" pt:class="px-4 py-3 form-signin"
+						pt:style="width : 7000px">
+						<h:dataTable value="#{controllerProduto.listaEntity}" var="obj"
+							pt:class="table">
+							<h:column>
+								<f:facet name="header" pt:class="col">Id</f:facet>
+								<h:outputLabel value="#{obj.id}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header" pt:class="col">Marca</f:facet>
+								<h:commandLink value="#{obj.marca}"
+									actionListener="#{controllerProduto.editar(obj)}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header" pt:class="col">Quantidade</f:facet>
+								<h:outputLabel value="#{obj.quantidade}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header" pt:class="col">Numero de Serie</f:facet>
+								<h:outputLabel value="#{obj.numSerie}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header" pt:class="col">Data de Fabricação</f:facet>
+								<h:outputLabel value="#{obj.datadeFabri}">
+									<f:convertDateTime type="localDate" pattern="dd-MM-yyyy" />
+								</h:outputLabel>
+							</h:column>
+							<h:column>
+								<f:facet name="header" pt:class="col">Estilo</f:facet>
+								<h:outputLabel value="#{obj.estilo.label}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header" pt:class="col">Preço</f:facet>
+								<h:outputLabel value="#{obj.preco}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header" pt:class="col">Comprar</f:facet>
+								<h:commandLink pt:class="btn btn-outline-success my-2 my-sm-0"
+									value="Adicionar ao carrinho"
+									actionListener="#{controllerVenda.addCarrinho}" />
+							</h:column>
+						</h:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

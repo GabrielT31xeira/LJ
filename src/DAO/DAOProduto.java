@@ -22,9 +22,9 @@ public class DAOProduto implements DAO<Produto>{
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO ");
 		sql.append("produto ");
-		sql.append("  (marca, num_serie, quantidade, data_fabri, cor, tamanho, estilo) ");
+		sql.append("  (marca, num_serie, quantidade, data_fabri, cor, tamanho, estilo, preco) ");
 		sql.append("VALUES ");
-		sql.append("  ( ?, ?, ?, ?, ?, ?, ? ) ");
+		sql.append("  ( ?, ?, ?, ?, ?, ?, ?, ? ) ");
 		PreparedStatement stat = null;
 		
 		try {
@@ -40,10 +40,13 @@ public class DAOProduto implements DAO<Produto>{
 			stat.setObject(5, obj.getCor());
 			stat.setObject(6, obj.getTamanho());
 			stat.setObject(7, (obj.getCor() == null ? null : obj.getEstilo().getId()));
+			stat.setDouble(8, obj.getPreco());
 			
 			stat.execute();
 			
 			conn.commit();
+			
+			Util.addInfoMessage("Produto adcionado com sucesso");
 			
 		}catch (SQLException e) {
 			
@@ -92,7 +95,8 @@ public class DAOProduto implements DAO<Produto>{
 		sql.append(" data_fabri = ?, ");
 		sql.append(" cor = ?, ");
 		sql.append(" tamanho = ?, ");
-		sql.append(" estilo = ? ");
+		sql.append(" estilo = ?, ");
+		sql.append(" preco = ? ");
 		sql.append("WHERE ");
 		sql.append(" id = ?");
 		
@@ -110,7 +114,9 @@ public class DAOProduto implements DAO<Produto>{
 			}
 			stat.setObject(5, obj.getCor());
 			stat.setObject(6, obj.getTamanho());
-			stat.setObject(7, (obj.getCor() == null ? null : obj.getEstilo().getId()));			
+			stat.setObject(7, (obj.getCor() == null ? null : obj.getEstilo().getId()));	
+			stat.setDouble(8, obj.getPreco());
+
 			stat.execute();
 			
 			conn.commit();
@@ -217,7 +223,8 @@ public class DAOProduto implements DAO<Produto>{
 		sql.append(" u.data_fabri, ");
 		sql.append(" u.cor, ");
 		sql.append(" u.tamanho,");
-		sql.append(" u.estilo ");
+		sql.append(" u.estilo, ");
+		sql.append(" preco ");
 		sql.append(" FROM ");
 		sql.append(" produto u ");
 		sql.append("ORDER BY u.marca");
@@ -239,6 +246,7 @@ public class DAOProduto implements DAO<Produto>{
 				produto.setCor(rs.getString("cor"));
 				produto.setTamanho(rs.getInt("tamanho"));
 				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));
+				produto.setPreco(rs.getDouble("preco"));
 				
 				listaProduto.add(produto);
 			}
@@ -287,7 +295,8 @@ public class DAOProduto implements DAO<Produto>{
 		sql.append(" u.data_fabri, ");
 		sql.append(" u.cor, ");
 		sql.append(" u.tamanho,");
-		sql.append(" u.estilo ");
+		sql.append(" u.estilo, ");
+		sql.append(" u.preco ");
 		sql.append(" FROM ");
 		sql.append(" produto u ");
 		sql.append(" WHERE u.id ");
@@ -309,7 +318,8 @@ public class DAOProduto implements DAO<Produto>{
 				produto.setDatadeFabri(data == null ? null:data.toLocalDate());
 				produto.setCor(rs.getString("cor"));
 				produto.setTamanho(rs.getInt("tamanho"));
-				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));			
+				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));
+				produto.setPreco(rs.getDouble("preco"));
 			}
 		}catch (SQLException e) {
 			Util.addErrorMessage("Não foi possivel buscar os dados do produto.");
@@ -354,6 +364,7 @@ public class DAOProduto implements DAO<Produto>{
 		sql.append(" u.cor, ");
 		sql.append(" u.tamanho,");
 		sql.append(" u.estilo ");
+		sql.append(" u.produto");
 		sql.append(" FROM ");
 		sql.append(" produto u ");
 		sql.append(" WHERE ");
@@ -380,7 +391,8 @@ public class DAOProduto implements DAO<Produto>{
 				produto.setDatadeFabri(data == null ? null:data.toLocalDate());
 				produto.setCor(rs.getString("cor"));
 				produto.setTamanho(rs.getInt("tamanho"));
-				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));	
+				produto.setEstilo(Estilo.valueOf(rs.getInt("estilo")));
+				produto.setPreco(rs.getDouble("preco"));
 			}
 			
 			
@@ -426,7 +438,8 @@ public class DAOProduto implements DAO<Produto>{
 		sql.append(" u.data_fabri, ");
 		sql.append(" u.cor, ");
 		sql.append(" u.tamanho,");
-		sql.append(" u.estilo ");
+		sql.append(" u.estilo, ");
+		sql.append(" u.preco ");
 		sql.append(" FROM ");
 		sql.append(" produto u ");
 		sql.append(" WHERE ");

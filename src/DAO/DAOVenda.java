@@ -14,8 +14,7 @@ import model.Usuario;
 import model.Venda;
 
 public class DAOVenda implements DAO<Venda>{
-
-	@Override
+	
 	public void inserir(Venda obj) throws Exception {
 		Exception exception = null;
 		Connection conn = DAO.getConnection();
@@ -121,25 +120,128 @@ public class DAOVenda implements DAO<Venda>{
 
 	
 	
-	@Override
+	
 	public void alterar(Venda obj) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void excluir(Venda obj) throws Exception {
-		// TODO Auto-generated method stub
+		Exception exception = null;
+		Connection conn = DAO.getConnection();
 		
+		StringBuffer sql = new StringBuffer();
+		sql.append("DELETE FROM venda WHERE id = ?");
+		
+		PreparedStatement stat = null;
+		
+		try {
+			stat = conn.prepareStatement(sql.toString());
+			stat.setInt(1, obj.getId());
+			stat.execute();
+			
+			conn.commit();
+		}catch (SQLException e) {
+			System.out.println("Erro ao realizar um comando sql de insert.");
+			e.printStackTrace();
+			// cancelando a transacao
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				System.out.println("Erro ao realizar o rollback.");
+				e1.printStackTrace();
+			}
+			exception = new Exception("Erro ao inserir");
+
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+
+		if (exception != null) {
+			throw exception;
+		}
+	}
+		
+	
+
+	
+	public List<Venda> obterTodos(Usuario usuario) throws Exception {
+		Exception excepton = null;
+		Connection conn = DAO.getConnection();
+		List<Venda> listaVenda = new ArrayList<Venda>(); 
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT ");
+		sql.append(" v.id, ");
+		sql.append(" v.data, ");
+		sql.append(" v.id_usuario ");
+		sql.append("FROM ");
+		sql.append("venda v ");
+		sql.append("WHERE ");
+		sql.append(" v.id_usuario = ?");
+		
+		PreparedStatement stat = null;
+		try {
+
+			stat = conn.prepareStatement(sql.toString());
+			stat.setInt(1, usuario.getId());
+
+			ResultSet rs = stat.executeQuery();
+
+			while (rs.next()) {
+				Venda venda = new Venda();
+				venda.setId(rs.getInt("id"));
+				venda.setData(rs.getTimestamp("data_venda").toLocalDateTime());
+				venda.setUsuario(usuario);
+				
+				venda.setListaItemVenda(obterTodosItensVenda(venda));
+				
+
+				listaVenda.add(venda);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			excepton = new Exception("Erro ao executar um sql em VendaDAO.");
+		} finally {
+			try {
+				if (!stat.isClosed())
+					stat.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao fechar o Statement");
+				e.printStackTrace();
+			}
+
+			try {
+				if (!conn.isClosed())
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("Erro a o fechar a conexao com o banco.");
+				e.printStackTrace();
+			}
+		}
+
+		if (excepton != null)
+			throw excepton;
+		
+		return listaVenda;
 	}
 
-	@Override
-	public List<Venda> obterTodos() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Venda obterUm(Venda obj) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -203,9 +305,11 @@ public class DAOVenda implements DAO<Venda>{
 
 		return listaItemVenda;
 	}
-	public List<Venda> obterTodosItensVenda(Usuario obj) {
+	public List<Venda> obterTodos() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 }
 

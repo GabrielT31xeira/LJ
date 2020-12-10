@@ -1,4 +1,5 @@
 package controller;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -7,6 +8,7 @@ import javax.inject.Named;
 import application.Session;
 import application.Util;
 import DAO.DAOUsuario;
+import model.Perfil;
 import model.Usuario;
 
 @Named
@@ -16,24 +18,22 @@ public class controllerLogin {
 	private Usuario usuario;
 
 	public void Logar() {
-		
+
 		DAOUsuario dao = new DAOUsuario();
 		try {
-			Usuario usuarioLogado = 
-					dao.obterUsuario(getUsuario().getEmail(), 
-							Util.hash(getUsuario().getEmail()+getUsuario().getSenha()));
+			Usuario usuarioLogado = dao.obterUsuario(getUsuario().getEmail(),
+					Util.hash(getUsuario().getEmail() + getUsuario().getSenha()));
 			if (usuarioLogado == null)
 				Util.addErrorMessage("Usuário ou senha inválido.");
 			else {
-				// Usuario existe com as credenciais
 				Session.getInstance().setAttribute("usuarioLogado", usuarioLogado);
-				if(usuarioLogado.getPerfil().getId()==1) {
-					Util.redirect("templateFunci.xhtml");					
+				if(Perfil.FUNCIONARIO.equals(usuario.getPerfil())) {
+					Util.redirect("funci/templateFunci.xhtml");
 				}else {
-					Util.redirect("templateUsu.xhtml");					
+					Util.redirect("usu/templateUsu.xhtml");
 				}
 			}
-				
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Util.addErrorMessage("Problema ao verificar o Login. Entre em contato pelo email: contato@email.com.br");

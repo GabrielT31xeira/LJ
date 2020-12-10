@@ -12,26 +12,20 @@ import application.Util;
 import application.Session;
 import DAO.DAOVenda;
 import DAO.DAOProduto;
+import model.ItemVenda;
 import model.Produto;
 import model.Usuario;
 import model.Venda;
 
 @Named
 @ViewScoped
-public class controllerVenda extends Controller<Venda> implements Serializable{
-	public controllerVenda(DAO.DAO<Venda> dao) {
-		super(dao);
-		
-	}
+public class controllerVenda implements Serializable{
 	private static final long serialVersionUID = -5512578110148647018L;
 	
 	private Integer Tipofiltro;
 	private String filtro;
 	private List<Produto> listaProduto;
 	
-	public void novoProduto() {
-//		Util.redirect("midia.xhtml");
-	}
 	public void pesquisar() {
 		DAOProduto dao = new DAOProduto();
 		try {
@@ -39,6 +33,30 @@ public class controllerVenda extends Controller<Venda> implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 			setListaProduto(null);
+		}
+	}
+	public void addCarrinho(Produto produto) {
+		try {	
+			DAOProduto dao = new DAOProduto();
+			produto = dao.obterUm(produto);
+			
+			List<ItemVenda> listaIV = null;
+			Object obj = Session.getInstance().getAttribute("carrinho");
+			
+			if(obj == null) {
+				listaIV = new ArrayList<ItemVenda>();
+			}else {
+				listaIV = (List<ItemVenda>) obj;
+			}
+			ItemVenda item = new ItemVenda();
+			item.setProduto(produto);
+			item.setPreco(produto.getPreco());
+			listaIV.add(item);
+			Session.getInstance().setAttribute("carrinho", listaIV);
+			Util.addInfoMessage("O produto foi adcionado");
+		}catch (Exception e) {
+			e.printStackTrace();
+			Util.addErrorMessage("Erro ao add ao carrinho");
 		}
 	}
 	public Integer getTipofiltro() {
@@ -60,28 +78,5 @@ public class controllerVenda extends Controller<Venda> implements Serializable{
 	}
 	public void setListaProduto(List<Produto> listaProduto) {
 		this.listaProduto = listaProduto;
-	}
-	@Override
-	public Venda getEntity() {
-		if (entity == null)
-			entity = new Venda();
-		return entity;
-	}
-	private List<Venda> listaVenda;
-
-	public List<Venda> getListaVenda() {
-		if (listaVenda == null) {
-			DAOVenda dao = new DAOVenda();
-			Object obj = Session.getInstance().getAttribute("usuarioLogado");
-			
-			if (obj != null)
-				try {
-					listaVenda = dao.obterTodosItensVenda((Usuario) obj);
-				} catch (Exception e) {
-					Util.addErrorMessage("Não foi possível obter o histórico de vendas.");
-					listaVenda = new ArrayList<Venda>();
-				}
-		}
-		return listaVenda;
 	}
 }
